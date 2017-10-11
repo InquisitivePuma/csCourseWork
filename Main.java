@@ -1,5 +1,6 @@
 import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -12,54 +13,80 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        BorderPane root = new BorderPane();
+        Pane root = new Pane();
 
+        Scene scene = new Scene(root, 768, 900);
 
-        Scene scene = new Scene(root, 720, 720);
-        stage.setResizable(false);
         stage.setTitle("Hello World");
         stage.setScene(scene);
+        stage.setResizable(false);
+        //making a new Hbox for top menu buttons
         HBox topBar = new HBox(10);
+        topBar.setPadding(new Insets(15));
+        //array of the buttons to go in the Hbox
+        Button[] myButtons = new Button[4];
 
-        //top bar
-        Button[] topBarChildren = new Button[4];
+        myButtons[0] = new Button("No deck selected\n(X cards in current deck)");
+        myButtons[0].setPrefSize(180, 60);
+        myButtons[0].setOnAction((ActionEvent ae) -> doSomething());
 
-        topBarChildren[0] = new Button("X cards in current deck");
-        topBarChildren[0].setPrefSize(180, 40);
-        topBarChildren[0].setOnAction((ActionEvent ae) -> doSomething(ae));
+        myButtons[1] = new Button("Add to favorites");
+        myButtons[1].setPrefSize(180, 60);
+        myButtons[1].setOnAction((ActionEvent ae) -> doSomething());
 
-        topBarChildren[1] = new Button("Add to favorites.");
-        topBarChildren[1].setPrefSize(150, 40);
-        topBarChildren[1].setOnAction((ActionEvent ae) -> doSomething(ae));
+        myButtons[2] = new Button("Edit");
+        myButtons[2].setPrefSize(180, 60);
+        myButtons[2].setOnAction((ActionEvent ae) -> doSomething());
 
-        topBarChildren[2] = new Button("Edit");
-        topBarChildren[2].setPrefSize(100, 40);
-        topBarChildren[2].setOnAction((ActionEvent ae) -> doSomething(ae));
+        myButtons[3] = new Button("Bin");
+        myButtons[3].setPrefSize(180, 60);
+        myButtons[3].setOnAction((ActionEvent ae) -> doSomething());
 
-        topBarChildren[3] = new Button("Bin");
-        topBarChildren[3].setPrefSize(100, 40);
-        topBarChildren[3].setOnAction((ActionEvent ae) -> doSomething(ae));
-
-        topBar.getChildren().addAll(topBarChildren);
+        topBar.getChildren().addAll(myButtons);
         root.getChildren().add(topBar);
 
+        //gridpane for the decks
+        GridPane body = new GridPane();
+        body.setHgap(10);
+        body.setVgap(10);
+        body.setPadding(new Insets(20));
+        //filling gridpane with buttons
+        for (int x = 0; x < 3; x++) {
+            for (int y = 0; y < 5; y++) {
+                Button aButton = new Button(Integer.toString(x) + ", " + Integer.toString(y));
+                aButton.setPrefSize(240, 120);
+                body.add(aButton, x, y);
+            }
+        }
+        root.getChildren().add(body);
+        body.setLayoutY(100);
 
-        //doing positions
-        topBar.setAlignment(Pos.TOP_CENTER);
-        BorderPane.setAlignment(topBar, Pos.TOP_CENTER);
+        //Making bottom "page turn" buttons.
+        HBox bottomBar = new HBox(10);
+        bottomBar.setPadding(new Insets(32));
+        //array of the buttons to go in the Hbox
+        Button[] bottomButtons = new Button[2];
 
-        //proper termination
-        stage.setOnCloseRequest((WindowEvent kill) -> System.exit(0));
+        bottomButtons[0] = new Button("<---");
+        bottomButtons[0].setPrefSize(350, 60);
+        bottomButtons[0].setOnAction((ActionEvent ae) -> doSomething());
+
+        bottomButtons[1] = new Button("--->");
+        bottomButtons[1].setPrefSize(350, 60);
+        bottomButtons[1].setOnAction((ActionEvent ae) -> doSomething());
+
+        bottomBar.getChildren().addAll(bottomButtons);
+        root.getChildren().add(bottomBar);
+        bottomBar.setLayoutY(800);
 
         stage.show();
-
     }
 
     public static void main(String[] args) {
         launch(args);
     }
 
-    private static void doSomething(ActionEvent ae){
-        //joke's on you, this doesn't do anything.
+    public static void doSomething(){
+        //Joke's on you; this does nothing.
     }
 }
