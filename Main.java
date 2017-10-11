@@ -1,12 +1,11 @@
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 public class Main extends Application {
 
@@ -28,19 +27,19 @@ public class Main extends Application {
 
         myButtons[0] = new Button("No deck selected\n(X cards in current deck)");
         myButtons[0].setPrefSize(180, 60);
-        myButtons[0].setOnAction((ActionEvent ae) -> doSomething());
+        myButtons[0].setOnAction((ActionEvent ae) -> placeholder());
 
         myButtons[1] = new Button("Add to favorites");
         myButtons[1].setPrefSize(180, 60);
-        myButtons[1].setOnAction((ActionEvent ae) -> doSomething());
+        myButtons[1].setOnAction((ActionEvent ae) -> placeholder());
 
         myButtons[2] = new Button("Edit");
         myButtons[2].setPrefSize(180, 60);
-        myButtons[2].setOnAction((ActionEvent ae) -> doSomething());
+        myButtons[2].setOnAction((ActionEvent ae) -> placeholder());
 
         myButtons[3] = new Button("Bin");
         myButtons[3].setPrefSize(180, 60);
-        myButtons[3].setOnAction((ActionEvent ae) -> doSomething());
+        myButtons[3].setOnAction((ActionEvent ae) -> placeholder());
 
         topBar.getChildren().addAll(myButtons);
         root.getChildren().add(topBar);
@@ -55,6 +54,7 @@ public class Main extends Application {
             for (int y = 0; y < 5; y++) {
                 Button aButton = new Button(Integer.toString(x) + ", " + Integer.toString(y));
                 aButton.setPrefSize(240, 120);
+                aButton.setOnAction((ActionEvent ae) -> placeholder());
                 body.add(aButton, x, y);
             }
         }
@@ -69,11 +69,11 @@ public class Main extends Application {
 
         bottomButtons[0] = new Button("<---");
         bottomButtons[0].setPrefSize(350, 60);
-        bottomButtons[0].setOnAction((ActionEvent ae) -> doSomething());
+        bottomButtons[0].setOnAction((ActionEvent ae) -> placeholder());
 
         bottomButtons[1] = new Button("--->");
         bottomButtons[1].setPrefSize(350, 60);
-        bottomButtons[1].setOnAction((ActionEvent ae) -> doSomething());
+        bottomButtons[1].setOnAction((ActionEvent ae) -> placeholder());
 
         bottomBar.getChildren().addAll(bottomButtons);
         root.getChildren().add(bottomBar);
@@ -86,7 +86,12 @@ public class Main extends Application {
         launch(args);
     }
 
-    public static void doSomething(){
-        //Joke's on you; this does nothing.
+    public static void placeholder(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText(null);
+        alert.setContentText("This feature has not been implemented yet.");
+
+        alert.showAndWait();
     }
 }
