@@ -7,10 +7,10 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
-public class DeckS {
-
-    public static Pane deckS() {
-
+public class DeckS extends Main{
+private static Stage myStage;
+    public static Pane launchDeckS(Stage stage) {
+        myStage=stage;
         Pane root = new Pane();
 
         //making a new Hbox for top menu buttons
@@ -21,19 +21,19 @@ public class DeckS {
 
         myButtons[0] = new Button("No deck selected\n(X cards in current deck)");
         myButtons[0].setPrefSize(180, 60);
-        myButtons[0].setOnAction((ActionEvent ae) -> placeholder());
+        myButtons[0].setOnAction((ActionEvent ae) -> Main.placeholder());
 
         myButtons[1] = new Button("Add to favorites");
         myButtons[1].setPrefSize(180, 60);
-        myButtons[1].setOnAction((ActionEvent ae) -> placeholder());
+        myButtons[1].setOnAction((ActionEvent ae) -> Main.placeholder());
 
         myButtons[2] = new Button("Edit");
         myButtons[2].setPrefSize(180, 60);
-        myButtons[2].setOnAction((ActionEvent ae) -> placeholder());
+        myButtons[2].setOnAction((ActionEvent ae) -> Main.placeholder());
 
         myButtons[3] = new Button("Bin");
         myButtons[3].setPrefSize(180, 60);
-        myButtons[3].setOnAction((ActionEvent ae) -> placeholder());
+        myButtons[3].setOnAction((ActionEvent ae) -> Main.placeholder());
 
         topBar.getChildren().addAll(myButtons);
         root.getChildren().add(topBar);
@@ -47,14 +47,14 @@ public class DeckS {
         Button[][] bodyButtons = new Button[4][6];
         for (int x = 0; x < 3; x++) {
             for (int y = 0; y < 5; y++) {
-                bodyButtons[x][y] = new Button(Integer.toString(x) + ", " + Integer.toString(y));
+                bodyButtons[x][y] = new Button("Deck"+Integer.toString(x) + ", " + Integer.toString(y));
                 bodyButtons[x][y].setPrefSize(240, 120);
-                bodyButtons[x][y].setOnAction((ActionEvent ae) -> placeholder());
+                bodyButtons[x][y].setOnAction((ActionEvent ae) -> Main.placeholder());
                 body.add(bodyButtons[x][y], x, y);
             }
         }
         bodyButtons[0][0].setText("New deck.");
-        bodyButtons[0][0].setOnAction((ActionEvent ae) -> deckC());
+        bodyButtons[0][0].setOnAction((ActionEvent ae) -> Main.launchDeckC(myStage));
         root.getChildren().add(body);
         body.setLayoutY(100);
 
@@ -66,11 +66,11 @@ public class DeckS {
 
         bottomButtons[0] = new Button("<---");
         bottomButtons[0].setPrefSize(350, 60);
-        bottomButtons[0].setOnAction((ActionEvent ae) -> placeholder());
+        bottomButtons[0].setOnAction((ActionEvent ae) -> Main.placeholder());
 
         bottomButtons[1] = new Button("--->");
         bottomButtons[1].setPrefSize(350, 60);
-        bottomButtons[1].setOnAction((ActionEvent ae) -> placeholder());
+        bottomButtons[1].setOnAction((ActionEvent ae) -> Main.placeholder());
 
         bottomBar.getChildren().addAll(bottomButtons);
         root.getChildren().add(bottomBar);
@@ -79,23 +79,4 @@ public class DeckS {
         return root;
 
     }
-
-    private static void deckC(){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Information Dialog");
-        alert.setHeaderText(null);
-        alert.setContentText("This feature has not been implemented yet.");
-
-        alert.showAndWait();
-    }
-
-
-    private static void placeholder(){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Information Dialog");
-        alert.setHeaderText(null);
-        alert.setContentText("This feature has not been implemented yet.");
-
-        alert.showAndWait();
-    }
-} //plspush
+}
