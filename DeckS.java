@@ -1,8 +1,5 @@
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -54,7 +51,7 @@ private static Stage myStage;
             }
         }
         bodyButtons[0][0].setText("New deck.");
-        bodyButtons[0][0].setOnAction((ActionEvent ae) -> Main.launchDeckC(myStage));
+        bodyButtons[0][0].setOnAction((ActionEvent ae) -> Main.startDeckC(myStage));
         root.getChildren().add(body);
         body.setLayoutY(100);
 

@@ -19,13 +19,23 @@ public class Main extends Application {
         stage.show();
     }
 
-
     public static void main(String[] args) {
         launch(args);
     }
 
-    public static void launchDeckC(Stage stage){
-        root = deckC.launchDeckC();
+    public static void startDeckC(Stage stage){
+        root = DeckC.launchDeckC(stage);
+
+        Scene scene = new Scene(root, 768, 900);
+
+        stage.setTitle("Jesse Ellis's Flashcard Program");
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
+    }
+
+    public static void startCardC(Stage stage){
+        root = CardC.launchCardC();
 
         Scene scene = new Scene(root, 768, 900);
 

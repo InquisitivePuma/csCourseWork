@@ -1,14 +1,18 @@
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.*;
+import javafx.stage.Stage;
 
-public class deckC extends Main{
-    public static Pane launchDeckC() {
-
+public class DeckC extends Main{
+    private static Stage myStage;
+    public static Pane launchDeckC(Stage stage) {
+        myStage=stage;
         Pane root = new Pane();
         //Showing deck title at op of window
         Text title = new Text(10, 50, "Deck title or name.");
@@ -54,10 +58,34 @@ public class deckC extends Main{
             }
         }
         bodyButtons[0][0].setText("New card.");
-        //bodyButtons[0][0].setOnAction((ActionEvent ae) -> deckC());
+        bodyButtons[0][0].setOnAction((ActionEvent ae) -> Main.startCardC(myStage));
         root.getChildren().add(body);
         body.setLayoutY(150);
         body.setLayoutX(20);
+
+        //Making scrollpane and VBox to frame the far-right decklist
+        ScrollPane rightScroll = new ScrollPane();
+        rightScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        rightScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        VBox decklist = new VBox(4);
+        //Array of HBoxes with text in them, allowing me to frame the card titles
+        HBox[] cardFrames = new HBox[75];
+        for (int i=0;i<75;i++){
+            HBox currentFrame = new HBox(0);
+            Text cardName = new Text(" Card "+Integer.toString(i+1)+" name goes here. ");
+            currentFrame.getChildren().add(cardName);
+            currentFrame.setStyle("-fx-border-color: black;" + "-fx-border-width: 2px;");
+            cardFrames[i] = currentFrame;
+        }
+        decklist.getChildren().addAll(cardFrames);
+        rightScroll.setLayoutX(588);
+        rightScroll.setLayoutY(75);
+        rightScroll.setContent(decklist);
+        rightScroll.setPrefViewportHeight(733);
+        root.getChildren().add(rightScroll);
+
+
+
 
         //Making bottom "page turn" buttons.
         HBox bottomBar = new HBox(10);
