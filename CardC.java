@@ -20,14 +20,19 @@ public class CardC {
                 "10","11","12","14","16","18","20","22","24","26","30","36","42","48","56","64","72"
         );
         ComboBox fontSize = new ComboBox(options);
-        textFormatting.getItems().addAll(bold, italic, underline);
         options = FXCollections.observableArrayList(
                 "Arial","Courier","Courier New","Helvetica","Times","Times New Roman"
         );
         ComboBox font = new ComboBox(options);
         textFormatting.getItems().add(font);
         textFormatting.getItems().add(fontSize);
+        textFormatting.getItems().addAll(bold, italic, underline);
+        textFormatting.setPrefWidth(768);
         root.getChildren().add(textFormatting);
         return root;
+
+        /* So, I have 2 options depending on how the stackoverflow question goes: Jam all the relevant stuff from
+         * the HTMLEditor scene constructor in here, or pass the HTMLEditor in and use that as my root pane - see
+          * example 19.4 in the help I linked on stackoverflow.*/
     }
 }
