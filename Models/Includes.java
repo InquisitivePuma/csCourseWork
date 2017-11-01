@@ -1,22 +1,22 @@
 package Models;
 
 public class Includes {
-    private int CardID;
-    private int includes;
+    private int cardID;
+
+    public int getCardID() { return cardID; }
+
+    public void setCardID(int cardID) {
+        this.cardID = cardID;
+    }
 
     public int getIncludes() {
         return includes;
-    }
-
-    public int getCardID() {
-        return CardID;
     }
 
     public void setIncludes(int includes) {
         this.includes = includes;
     }
 
-    public void setCardID(int cardID) {
-        CardID = cardID;
-    }
+    private int includes;
+
 }

@@ -12,9 +12,6 @@ public class Cards {
     private String thirdText;
     private String thirdImage;
 
-    public int getCardID() {
-        return cardID;
-    }
 
     public void setCardID(int cardID) {
         this.cardID = cardID;
