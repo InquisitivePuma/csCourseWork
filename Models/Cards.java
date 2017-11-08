@@ -2,9 +2,8 @@ package Models;
 
 public class Cards {
     private int cardID;
-    private int imageID;
     private int created;
-    private int lastEdit;
+    private int lastEdit; //dd-mmy-yyyy hh:mm:ss
     private String frontText;
     private String frontImage;
     private String backText;
@@ -15,14 +14,6 @@ public class Cards {
 
     public void setCardID(int cardID) {
         this.cardID = cardID;
-    }
-
-    public int getImageID() {
-        return imageID;
-    }
-
-    public void setImageID(int imageID) {
-        this.imageID = imageID;
     }
 
     public int getCreated() {

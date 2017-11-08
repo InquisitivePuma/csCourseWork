@@ -3,8 +3,8 @@ package Models;
 public class Decks {
     private int deckID;
     private int includes;
-    private int created; //ddmmyyyy
-    private int lastEdit; //ddmmyyyy
+    private int created; //dd-mmy-yyyy hh:mm:ss
+    private int lastEdit; //dd-mmy-yyyy hh:mm:ss
     private int noOfCards;
 
     public int getDeckID() {

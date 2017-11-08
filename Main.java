@@ -1,3 +1,4 @@
+import Models.DatabaseConnection;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -20,8 +21,11 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
+        DatabaseConnection db = new DatabaseConnection("");
         launch(args);
     }
+
+
 
     public static void startDeckC(Stage stage){
         root = DeckC.launchDeckC(stage);
