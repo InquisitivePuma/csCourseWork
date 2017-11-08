@@ -2,7 +2,6 @@ package Models;
 
 public class Cards {
     private int cardID;
-    private int created;
     private int lastEdit; //dd-mmy-yyyy hh:mm:ss
     private String frontText;
     private String frontImage;
@@ -11,17 +10,20 @@ public class Cards {
     private String thirdText;
     private String thirdImage;
 
+    private Cards(int cardID, int lastEdit, String frontText, String frontImage,
+                  String backText, String backImage, String thirdText, String thirdImage){
+        this.cardID = cardID;
+        this.lastEdit = lastEdit;
+        this.frontText = frontText;
+        this.frontImage = frontImage;
+        this.backText = backText;
+        this.backImage = backImage;
+        this.thirdText = thirdText;
+        this.thirdImage = thirdImage;
+    }
 
     public void setCardID(int cardID) {
         this.cardID = cardID;
-    }
-
-    public int getCreated() {
-        return created;
-    }
-
-    public void setCreated(int created) {
-        this.created = created;
     }
 
     public int getLastEdit() {
