@@ -42,5 +42,19 @@ public class CardService {
                 "backText="+card.getBackText()+", backImage="+card.getBackImage()+", " +
                 "thirdText="+card.getThirdText()+", thirdImage="+card.getThirdImage()));
     This is all wrong - look at pizza example classes. String concatenation is JANKYYYYY
+    Another example is below
     }*/
+
+    /*// the mysql insert statement
+      String query = " insert into users (first_name, last_name, date_created, is_admin, num_points)"
+        + " values (?, ?, ?, ?, ?)";
+
+      // create the mysql insert preparedstatement
+      PreparedStatement preparedStmt = conn.prepareStatement(query);
+      preparedStmt.setString (1, "Barney");
+      preparedStmt.setString (2, "Rubble");
+      preparedStmt.setDate   (3, startDate);
+      preparedStmt.setBoolean(4, false);
+      preparedStmt.setInt    (5, 5000);
+*/
 }
