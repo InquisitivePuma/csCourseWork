@@ -2,7 +2,7 @@ package Models;
 
 public class Cards {
     private int cardID;
-    private int lastEdit; //dd-mmy-yyyy hh:mm:ss
+    private int lastEdit; //dd-mm-yyyy hh:mm:ss
     private String frontText;
     private String frontImage;
     private String backText;
@@ -11,7 +11,7 @@ public class Cards {
     private String thirdImage;
 
     public Cards(int cardID, int lastEdit, String frontText, String frontImage,
-                  String backText, String backImage, String thirdText, String thirdImage){
+                 String backText, String backImage, String thirdText, String thirdImage) {
         this.cardID = cardID;
         this.lastEdit = lastEdit;
         this.frontText = frontText;
@@ -20,6 +20,10 @@ public class Cards {
         this.backImage = backImage;
         this.thirdText = thirdText;
         this.thirdImage = thirdImage;
+    }
+
+    public int getCardID() {
+        return cardID;
     }
 
     public void setCardID(int cardID) {
@@ -52,10 +56,6 @@ public class Cards {
 
     public String getBackText() {
         return backText;
-    }
-
-    public String toString(){
-        return frontText+"\n\n\n"+backText+"\n\n"+thirdText;
     }
 
     public void setBackText(String backText) {
