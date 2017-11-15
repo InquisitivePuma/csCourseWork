@@ -9,7 +9,11 @@ public class Main extends Application {
 
     public static Pane root;
     @Override
-    public void start/*deckS*/(Stage stage) throws Exception {
+    public void start(Stage stage) throws Exception{
+        startDeckS(stage);
+    }
+
+    public static void startDeckS(Stage stage) {
         root = DeckS.launchDeckS(stage);
 
         Scene scene = new Scene(root, 768, 900);
@@ -20,14 +24,17 @@ public class Main extends Application {
         stage.show();
     }
 
-    public static void main(String[] args) {
+
+
+
+    public static void main(String[] args){
         DatabaseConnection db = new DatabaseConnection("");
         launch(args);
     }
 
 
 
-    public static void startDeckC(Stage stage){
+    public static void startDeckC(Stage stage) {
         root = DeckC.launchDeckC(stage);
 
         Scene scene = new Scene(root, 768, 900);
@@ -38,8 +45,19 @@ public class Main extends Application {
         stage.show();
     }
 
+    public static void startCardV(Stage stage){
+        root = CardV.launchCardV(stage);
+
+        Scene scene = new Scene(root, 768, 900);
+
+        stage.setTitle("Jesse Ellis's Flashcard Program");
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
+    }
+
     public static void startCardC(Stage stage){
-        root = CardC.launchCardC();
+        root = CardC.launchCardC(stage);
 
         Scene scene = new Scene(root, 768, 900);
 

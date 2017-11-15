@@ -10,9 +10,9 @@ import javafx.scene.text.*;
 import javafx.stage.Stage;
 
 public class DeckC extends Main{
-    private static Stage myStage;
+    private static Stage mainstage;
     public static Pane launchDeckC(Stage stage) {
-        myStage=stage;
+        mainstage = stage;
         Pane root = new Pane();
         //Showing deck title at op of window
         Text title = new Text(10, 50, "Deck title or name.");
@@ -58,7 +58,7 @@ public class DeckC extends Main{
             }
         }
         bodyButtons[0][0].setText("New card.");
-        bodyButtons[0][0].setOnAction((ActionEvent ae) -> Main.startCardC(myStage));
+        bodyButtons[0][0].setOnAction((ActionEvent ae) -> Main.startCardC(mainstage));
         root.getChildren().add(body);
         body.setLayoutY(150);
         body.setLayoutX(20);
@@ -89,21 +89,25 @@ public class DeckC extends Main{
 
         //Making bottom "page turn" buttons.
         HBox bottomBar = new HBox(10);
-        bottomBar.setPadding(new Insets(32));
+        bottomBar.setPadding(new Insets(15));
         //array of the buttons to go in the Hbox
-        Button[] bottomButtons = new Button[2];
+        Button[] bottomButtons = new Button[3];
 
         bottomButtons[0] = new Button("<---");
-        bottomButtons[0].setPrefSize(350, 60);
+        bottomButtons[0].setPrefSize(320, 60);
         bottomButtons[0].setOnAction((ActionEvent ae) -> Main.placeholder());
 
         bottomButtons[1] = new Button("--->");
-        bottomButtons[1].setPrefSize(350, 60);
+        bottomButtons[1].setPrefSize(320, 60);
         bottomButtons[1].setOnAction((ActionEvent ae) -> Main.placeholder());
+
+        bottomButtons[2] = new Button("back");
+        bottomButtons[2].setOnAction((ActionEvent ae) -> Main.startDeckS(mainstage));
 
         bottomBar.getChildren().addAll(bottomButtons);
         root.getChildren().add(bottomBar);
         bottomBar.setLayoutY(800);
+        bottomBar.setLayoutX(25);
 
         return root;
 

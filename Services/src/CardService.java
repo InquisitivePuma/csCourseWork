@@ -20,6 +20,10 @@ public class CardService {
 
             return returnedCards;
         }
-        catch (java.sql.SQLException exception){System.out.println("Database query error: " + exception.getMessage());}
+        catch (java.sql.SQLException exception){
+            System.out.println("Database query error: " + exception.getMessage());
+            ArrayList<Cards> emptyList = new ArrayList<Cards>();
+            return emptyList;
+        }
     }
 }

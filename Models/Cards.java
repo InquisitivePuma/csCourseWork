@@ -10,7 +10,7 @@ public class Cards {
     private String thirdText;
     private String thirdImage;
 
-    private Cards(int cardID, int lastEdit, String frontText, String frontImage,
+    public Cards(int cardID, int lastEdit, String frontText, String frontImage,
                   String backText, String backImage, String thirdText, String thirdImage){
         this.cardID = cardID;
         this.lastEdit = lastEdit;

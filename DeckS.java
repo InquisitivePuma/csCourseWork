@@ -5,9 +5,9 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 public class DeckS extends Main{
-private static Stage myStage;
+private static Stage mainstage;
     public static Pane launchDeckS(Stage stage) {
-        myStage=stage;
+        mainstage =stage;
         Pane root = new Pane();
 
         //making a new Hbox for top menu buttons
@@ -46,12 +46,12 @@ private static Stage myStage;
             for (int y = 0; y < 5; y++) {
                 bodyButtons[x][y] = new Button("Deck"+Integer.toString(x) + ", " + Integer.toString(y));
                 bodyButtons[x][y].setPrefSize(240, 120);
-                bodyButtons[x][y].setOnAction((ActionEvent ae) -> Main.placeholder());
+                bodyButtons[x][y].setOnAction((ActionEvent ae) -> Main.startCardV(mainstage));
                 body.add(bodyButtons[x][y], x, y);
             }
         }
         bodyButtons[0][0].setText("New deck.");
-        bodyButtons[0][0].setOnAction((ActionEvent ae) -> Main.startDeckC(myStage));
+        bodyButtons[0][0].setOnAction((ActionEvent ae) -> Main.startDeckC(mainstage));
         root.getChildren().add(body);
         body.setLayoutY(100);
 
