@@ -1,6 +1,9 @@
 import Models.Cards;
+import sun.plugin2.gluegen.runtime.CPU;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,13 +33,46 @@ public class CardService {
 
     }
 
-    /*private static void insertCard(int DeckID, Models.DatabaseConnection db, Cards card){
-        db.runQuery(db.newStatement("INSERT INTO Include (CardID, lastEdit, frontText, frontImage, " +
-                "backText, backImage, thirdText, thirdImage) VALUES ( "+card.getCardID()+","+card.getLastEdit()+","
-                +card.getFrontText()+","+card.getFrontImage()+","+card.getBackText()+","+card.getBackImage()+","
-                +card.getThirdText()+","+card.getThirdImage()));
+    private static void insertCard(int DeckID, Models.DatabaseConnection db, Cards card){
+        try {
+            String cQuery = "INSERT INTO Card (CardID,  LastEdit, frontText, frontImage, backText, backImage, thirdText, thirdImage)" +
+                    "(?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement cPrepped = db.newStatement(cQuery);
+            cPrepped.setInt(1, card.getCardID());
+            cPrepped.setInt(2, card.getLastEdit());
+            cPrepped.setString(3, card.getFrontText());
+            cPrepped.setString(4, card.getFrontImage());
+            cPrepped.setString(5, card.getBackText());
+            cPrepped.setString(6, card.getBackImage());
+            cPrepped.setString(7, card.getThirdText());
+            cPrepped.setString(8, card.getThirdImage());
+            db.runQuery(cPrepped);
+
+            String iQuery = "INSERT INTO Include (DeckID, CardID) values (?, ?)";
+            PreparedStatement iPrepped = db.newStatement(iQuery);
+            iPrepped.setInt(1, DeckID);
+            iPrepped.setInt(2, card.getCardID());
+            db.runQuery(iPrepped);
+        }catch(SQLException e){System.out.println("SQLException in insertCard");}
     }
-    private static void updateCard(int CardID, Models.DatabaseConnection db, Cards card){
+
+    private static void updateCard(Models.DatabaseConnection db, Cards card){
+        try {
+        String cQuery = "UPDATE Card SET (CardID=?,  LastEdit=?, frontText=?, frontImage=?, " +
+                "backText=?, backImage=?, thirdText=?, thirdImage=?)";
+        PreparedStatement cPrepped = db.newStatement(cQuery);
+        cPrepped.setInt(1, card.getCardID());
+        cPrepped.setInt(2, card.getLastEdit());
+        cPrepped.setString(3, card.getFrontText());
+        cPrepped.setString(4, card.getFrontImage());
+        cPrepped.setString(5, card.getBackText());
+        cPrepped.setString(6, card.getBackImage());
+        cPrepped.setString(7, card.getThirdText());
+        cPrepped.setString(8, card.getThirdImage());
+        }catch(SQLException e){System.out.println("SQLException in updateCard");}
+    }
+    /*
+    private static void updateCard(Models.DatabaseConnection db, Cards card){
                 db.runQuery(db.newStatement("UPDATE Cards SET CardID="+card.getCardID()+", lastEdit="+MainController.getDateTime()+
                 ", frontText="+card.getFrontText()+", frontImage="+card.getFrontImage()+", " +
                 "backText="+card.getBackText()+", backImage="+card.getBackImage()+", " +

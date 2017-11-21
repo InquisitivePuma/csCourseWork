@@ -2,7 +2,7 @@ package Models;
 
 public class Cards {
     private int cardID;
-    private int lastEdit; //dd-mm-yyyy hh:mm:ss
+    private int lastEdit; //dd-mm-yyyy hh:mm:ss => ddmmyyyyhhmmss
     private String frontText;
     private String frontImage;
     private String backText;
