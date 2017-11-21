@@ -1,4 +1,5 @@
 import Models.Cards;
+import com.sun.media.sound.ModelSource;
 import sun.plugin2.gluegen.runtime.CPU;
 
 import java.sql.PreparedStatement;
@@ -11,7 +12,7 @@ import java.util.Calendar;
 public class CardService {
     private static ArrayList<Cards> selectDeckCards(int DeckID, Models.DatabaseConnection db){
         try {
-            ResultSet cards = db.runQuery(db.newStatement("SELECT CardID, lastEdit, frontText, frontText," +
+            ResultSet cards = db.runQuery(db.newStatement("SELECT CardID, lastEdit, frontText, frontImage," +
                     " backText, backImage, thirdText, thirdImage FROM Include WHERE DeckID = " + DeckID));
             ArrayList<Cards> returnedCards = new ArrayList<>();
             if (cards != null) {
@@ -26,11 +27,28 @@ public class CardService {
             return returnedCards;
         }
         catch (java.sql.SQLException exception){
-            System.out.println("Database query error: " + exception.getMessage());
-            ArrayList<Cards> emptyList = new ArrayList<>();
-            return emptyList;
+            System.out.println("Database query error in SelectDeckCards: " + exception.getMessage());
+            return new ArrayList<Cards>();
         }
 
+    }
+
+    private static Cards selectCard(int cardID, Models.DatabaseConnection db){
+        try {
+        PreparedStatement cardStatement = db.newStatement("SELECT lastEdit, frontText, frontImage, backText, backImage, thirdText, thirdImage" +
+                "FROM Card WHERE CardID = ?");
+        cardStatement.setInt(1, cardID);
+        ResultSet cardSet = db.runQuery(cardStatement);
+        Cards card = new Cards(cardSet.getInt(cardID), cardSet.getInt("lastEdit"),
+                cardSet.getString("frontText"), cardSet.getString("frontImage"),
+                cardSet.getString("backText"), cardSet.getString("backImage"),
+                cardSet.getString("thirdText"), cardSet.getString("thirdImage"));
+        return card;
+        }catch(SQLException e){
+            System.out.println("SQLException in selectCard: "+e.getMessage());
+            return new Cards(-404, 00000000000000, "", "",
+                    "", "", "", "");
+        }
     }
 
     private static void insertCard(int DeckID, Models.DatabaseConnection db, Cards card){
@@ -53,7 +71,7 @@ public class CardService {
             iPrepped.setInt(1, DeckID);
             iPrepped.setInt(2, card.getCardID());
             db.runQuery(iPrepped);
-        }catch(SQLException e){System.out.println("SQLException in insertCard");}
+        }catch(SQLException e){System.out.println("SQLException in insertCard: "+e.getMessage());}
     }
 
     private static void updateCard(Models.DatabaseConnection db, Cards card){
@@ -69,28 +87,7 @@ public class CardService {
         cPrepped.setString(6, card.getBackImage());
         cPrepped.setString(7, card.getThirdText());
         cPrepped.setString(8, card.getThirdImage());
-        }catch(SQLException e){System.out.println("SQLException in updateCard");}
+        }catch(SQLException e){System.out.println("SQLException in updateCard: "+ e.getMessage());}
+
     }
-    /*
-    private static void updateCard(Models.DatabaseConnection db, Cards card){
-                db.runQuery(db.newStatement("UPDATE Cards SET CardID="+card.getCardID()+", lastEdit="+MainController.getDateTime()+
-                ", frontText="+card.getFrontText()+", frontImage="+card.getFrontImage()+", " +
-                "backText="+card.getBackText()+", backImage="+card.getBackImage()+", " +
-                "thirdText="+card.getThirdText()+", thirdImage="+card.getThirdImage()));
-    This is all wrong - look at pizza example classes. String concatenation is JANKYYYYY
-    Another example is below
-    }*/
-
-    /*// the mysql insert statement
-      String query = " insert into users (first_name, last_name, date_created, is_admin, num_points)"
-        + " values (?, ?, ?, ?, ?)";
-
-      // create the mysql insert preparedstatement
-      PreparedStatement preparedStmt = conn.prepareStatement(query);
-      preparedStmt.setString (1, "Barney");
-      preparedStmt.setString (2, "Rubble");
-      preparedStmt.setDate   (3, startDate);
-      preparedStmt.setBoolean(4, false);
-      preparedStmt.setInt    (5, 5000);
-*/
 }
