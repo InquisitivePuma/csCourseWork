@@ -32,7 +32,7 @@ public class CardService {
         }
 
     }
-
+    //Selects a card from the database, identifying it by its CardID.
     private static Cards selectCard(int cardID, Models.DatabaseConnection db){
         try {
         PreparedStatement cardStatement = db.newStatement("SELECT lastEdit, frontText, frontImage, backText, backImage, thirdText, thirdImage" +
@@ -46,11 +46,12 @@ public class CardService {
         return card;
         }catch(SQLException e){
             System.out.println("SQLException in selectCard: "+e.getMessage());
-            return new Cards(-404, 00000000000000, "", "",
+            return new Cards(-404, 00000000000000, "", "", //Error code in place of card ID to allow recieving method to error check.
                     "", "", "", "");
         }
     }
 
+    //Inserts a card, given all relevant information.
     private static void insertCard(int DeckID, Models.DatabaseConnection db, Cards card){
         try {
             String cQuery = "INSERT INTO Card (CardID,  LastEdit, frontText, frontImage, backText, backImage, thirdText, thirdImage)" +
@@ -74,6 +75,8 @@ public class CardService {
         }catch(SQLException e){System.out.println("SQLException in insertCard: "+e.getMessage());}
     }
 
+    //Updates a card, given ALL relevant details. It is presumed that any card you wnt to update will have been
+    //instantiated in the prgram and so you will have all relevant data.
     private static void updateCard(Models.DatabaseConnection db, Cards card){
         try {
         String cQuery = "UPDATE Card SET (CardID=?,  LastEdit=?, frontText=?, frontImage=?, " +

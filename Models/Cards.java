@@ -11,7 +11,7 @@ public class Cards {
     private String thirdImage;
 
     public Cards(int cardID, int lastEdit, String frontText, String frontImage,
-                 String backText, String backImage, String thirdText, String thirdImage) {
+                 String backText, String backImage, String thirdText, String thirdImage) { //<- constructor
         this.cardID = cardID;
         this.lastEdit = lastEdit;
         this.frontText = frontText;
@@ -21,7 +21,7 @@ public class Cards {
         this.thirdText = thirdText;
         this.thirdImage = thirdImage;
     }
-
+    //Getters and setters.
     public int getCardID() {
         return cardID;
     }
