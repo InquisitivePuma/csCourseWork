@@ -46,4 +46,5 @@ public class MainController {
         String strDate = sdf.format(cal.getTime());
         return strDate;
     }
+
 }

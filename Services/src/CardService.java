@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class CardService {
-    private static ArrayList<Cards> selectDeckCards(int DeckID, Models.DatabaseConnection db){
+    public static ArrayList<Cards> selectDeckCards(int DeckID, Models.DatabaseConnection db){
         try {
             ResultSet cards = db.runQuery(db.newStatement("SELECT CardID, lastEdit, frontText, frontImage," +
                     " backText, backImage, thirdText, thirdImage FROM Include WHERE DeckID = " + DeckID));
@@ -20,7 +20,7 @@ public class CardService {
                     returnedCards.add(new Cards(cards.getInt("cardID"), cards.getInt("lastEdit"),
                             cards.getString("frontText"), cards.getString("frontImage"),
                             cards.getString("backText"), cards.getString("backImage"),
-                            cards.getString("thirdText"), cards.getString("thirdImage")));
+                            cards.getString("thirdText"), cards.getString("thirdImage"), cards.getInt("urgency")));
                 }
             }
 
@@ -33,7 +33,7 @@ public class CardService {
 
     }
     //Selects a card from the database, identifying it by its CardID.
-    private static Cards selectCard(int cardID, Models.DatabaseConnection db){
+    public static Cards selectCard(int cardID, Models.DatabaseConnection db){
         try {
         PreparedStatement cardStatement = db.newStatement("SELECT lastEdit, frontText, frontImage, backText, backImage, thirdText, thirdImage" +
                 "FROM Card WHERE CardID = ?");
@@ -42,20 +42,20 @@ public class CardService {
         Cards card = new Cards(cardSet.getInt(cardID), cardSet.getInt("lastEdit"),
                 cardSet.getString("frontText"), cardSet.getString("frontImage"),
                 cardSet.getString("backText"), cardSet.getString("backImage"),
-                cardSet.getString("thirdText"), cardSet.getString("thirdImage"));
+                cardSet.getString("thirdText"), cardSet.getString("thirdImage"), cardSet.getInt("urgency"));
         return card;
         }catch(SQLException e){
             System.out.println("SQLException in selectCard: "+e.getMessage());
             return new Cards(-404, 00000000000000, "", "", //Error code in place of card ID to allow recieving method to error check.
-                    "", "", "", "");
+                    "", "", "", "", 0);
         }
     }
 
     //Inserts a card, given all relevant information.
-    private static void insertCard(int DeckID, Models.DatabaseConnection db, Cards card){
+    public static void insertCard(int DeckID, Models.DatabaseConnection db, Cards card){
         try {
-            String cQuery = "INSERT INTO Card (CardID,  LastEdit, frontText, frontImage, backText, backImage, thirdText, thirdImage)" +
-                    "(?, ?, ?, ?, ?, ?, ?, ?)";
+            String cQuery = "INSERT INTO Card (CardID,  LastEdit, frontText, frontImage, backText, backImage, thirdText, thirdImage, urgency)" +
+                    "(?, ?, ?, ?, ?, ?, ?, ? ?)";
             PreparedStatement cPrepped = db.newStatement(cQuery);
             cPrepped.setInt(1, card.getCardID());
             cPrepped.setInt(2, card.getLastEdit());
@@ -65,6 +65,7 @@ public class CardService {
             cPrepped.setString(6, card.getBackImage());
             cPrepped.setString(7, card.getThirdText());
             cPrepped.setString(8, card.getThirdImage());
+            cPrepped.setInt(8, card.getUrgency());
             db.runQuery(cPrepped);
 
             String iQuery = "INSERT INTO Include (DeckID, CardID) values (?, ?)";
@@ -77,10 +78,10 @@ public class CardService {
 
     //Updates a card, given ALL relevant details. It is presumed that any card you wnt to update will have been
     //instantiated in the prgram and so you will have all relevant data.
-    private static void updateCard(Models.DatabaseConnection db, Cards card){
+    public static void updateCard(Models.DatabaseConnection db, Cards card){
         try {
         String cQuery = "UPDATE Card SET (CardID=?,  LastEdit=?, frontText=?, frontImage=?, " +
-                "backText=?, backImage=?, thirdText=?, thirdImage=?)";
+                "backText=?, backImage=?, thirdText=?, thirdImage=?, urgency=?)";
         PreparedStatement cPrepped = db.newStatement(cQuery);
         cPrepped.setInt(1, card.getCardID());
         cPrepped.setInt(2, card.getLastEdit());
@@ -90,6 +91,7 @@ public class CardService {
         cPrepped.setString(6, card.getBackImage());
         cPrepped.setString(7, card.getThirdText());
         cPrepped.setString(8, card.getThirdImage());
+        cPrepped.setInt(8, card.getUrgency());
         }catch(SQLException e){System.out.println("SQLException in updateCard: "+ e.getMessage());}
 
     }

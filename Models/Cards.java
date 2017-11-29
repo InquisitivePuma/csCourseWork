@@ -9,9 +9,9 @@ public class Cards {
     private String backImage;
     private String thirdText;
     private String thirdImage;
-
+    private int urgency;
     public Cards(int cardID, int lastEdit, String frontText, String frontImage,
-                 String backText, String backImage, String thirdText, String thirdImage) { //<- constructor
+                 String backText, String backImage, String thirdText, String thirdImage, int urgency) { //<- constructor
         this.cardID = cardID;
         this.lastEdit = lastEdit;
         this.frontText = frontText;
@@ -20,6 +20,7 @@ public class Cards {
         this.backImage = backImage;
         this.thirdText = thirdText;
         this.thirdImage = thirdImage;
+        this.urgency=urgency;
     }
     //Getters and setters.
     public int getCardID() {
@@ -85,4 +86,13 @@ public class Cards {
     public void setThirdImage(String thirdImage) {
         this.thirdImage = thirdImage;
     }
+
+    public int getUrgency() {
+        return urgency;
+    }
+
+    public void setUrgency(int urgency) {
+        this.urgency = urgency;
+    }
+
 }
