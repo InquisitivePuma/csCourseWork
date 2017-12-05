@@ -12,9 +12,9 @@ import java.util.Calendar;
 public class CardService {
     public static ArrayList<Cards> selectDeckCards(int DeckID, Models.DatabaseConnection db){
         try {
-            ResultSet cards = db.runQuery(db.newStatement("SELECT CardID, lastEdit, frontText, frontImage," +
-                    " backText, backImage, thirdText, thirdImage FROM Card " +
-                    " INNER JOIN Include ON Card.CardID = Include.CardID WHERE DeckID = " + DeckID));
+            ResultSet cards = db.runQuery(db.newStatement("SELECT c.CardID, c.lastEdit, c.frontText, c.frontImage, c.backText, c.backImage, c.thirdText, c.thirdImage" +
+                    " FROM Card c INNER JOIN Include i ON c.CardID = i.CardID" +
+                    " WHERE i.DeckID = "+DeckID));
             ArrayList<Cards> returnedCards = new ArrayList<>();
             if (cards != null) {
                 while (cards.next()) {
