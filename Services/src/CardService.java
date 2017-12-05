@@ -13,7 +13,8 @@ public class CardService {
     public static ArrayList<Cards> selectDeckCards(int DeckID, Models.DatabaseConnection db){
         try {
             ResultSet cards = db.runQuery(db.newStatement("SELECT CardID, lastEdit, frontText, frontImage," +
-                    " backText, backImage, thirdText, thirdImage FROM Include WHERE DeckID = " + DeckID));
+                    " backText, backImage, thirdText, thirdImage FROM Card " +
+                    " INNER JOIN Include ON Card.CardID = Include.CardID WHERE DeckID = " + DeckID));
             ArrayList<Cards> returnedCards = new ArrayList<>();
             if (cards != null) {
                 while (cards.next()) {
