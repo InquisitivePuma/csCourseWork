@@ -6,7 +6,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-
+    public static DatabaseConnection db = new DatabaseConnection("csDB.db");
     public static Pane root;
     @Override
     public void start(Stage stage) throws Exception{
@@ -28,7 +28,6 @@ public class Main extends Application {
 
 
     public static void main(String[] args){
-        DatabaseConnection db = new DatabaseConnection("");
         launch(args);
     }
 

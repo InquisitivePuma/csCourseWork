@@ -1,7 +1,9 @@
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-import javafx.scene.layout.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class DeckS extends Main{
@@ -16,7 +18,7 @@ private static Stage mainstage;
         //array of the buttons to go in the Hbox
         Button[] myButtons = new Button[4];
 
-        myButtons[0] = new Button("No deck selected\n(X cards in current deck)");
+        myButtons[0] = new Button("No deck selected");
         myButtons[0].setPrefSize(180, 60);
         myButtons[0].setOnAction((ActionEvent ae) -> Main.placeholder());
 
@@ -41,15 +43,28 @@ private static Stage mainstage;
         body.setVgap(10);
         body.setPadding(new Insets(20));
         //filling gridpane with buttons
+
+        int noOfDecks = DeckService.noOfDecks();
+        int height = (noOfDecks/6);
+        int lastWidth = (noOfDecks%6);
+        int pages = 0;
         Button[][] bodyButtons = new Button[4][6];
-        for (int x = 0; x < 3; x++) {
-            for (int y = 0; y < 5; y++) {
-                bodyButtons[x][y] = new Button("Deck"+Integer.toString(x) + ", " + Integer.toString(y));
-                bodyButtons[x][y].setPrefSize(240, 120);
-                bodyButtons[x][y].setOnAction((ActionEvent ae) -> Main.startCardV(mainstage));
-                body.add(bodyButtons[x][y], x, y);
+        while ((height>4) || ((height==4) && (lastWidth==0))) {
+            for (int x = 0; x < 3; x++) {
+                for (int y = 0; y < 5; y++) {
+                    bodyButtons[x][y] = new Button(DeckService.selectDeckName(((5 * x) + y)+(24*pages)));
+                    bodyButtons[x][y].setPrefSize(240, 120);
+                    bodyButtons[x][y].setOnAction((ActionEvent ae) -> Main.startCardV(mainstage));
+                    body.add(bodyButtons[x][y], x, y);
+                }
             }
+            noOfDecks -= 24;
+            height = (noOfDecks/6);
+            lastWidth = (noOfDecks%6);
+            pages++;
         }
+
+
         bodyButtons[0][0].setText("New deck.");
         bodyButtons[0][0].setOnAction((ActionEvent ae) -> Main.startDeckC(mainstage));
         root.getChildren().add(body);

@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class CardService {
-    public static ArrayList<Cards> selectDeckCards(int DeckID, Models.DatabaseConnection db){
+    public static ArrayList<Cards> selectDeckCards(int DeckID){
         try {
-            ResultSet cards = db.runQuery(db.newStatement("SELECT c.CardID, c.lastEdit, c.frontText, c.frontImage, c.backText, c.backImage, c.thirdText, c.thirdImage" +
+            ResultSet cards = Main.db.runQuery(Main.db.newStatement("SELECT c.CardID, c.lastEdit, c.frontText, c.frontImage, c.backText, c.backImage, c.thirdText, c.thirdImage" +
                     " FROM Card c INNER JOIN Include i ON c.CardID = i.CardID" +
                     " WHERE i.DeckID = "+DeckID));
             ArrayList<Cards> returnedCards = new ArrayList<>();
@@ -34,12 +34,12 @@ public class CardService {
 
     }
     //Selects a card from the database, identifying it by its CardID.
-    public static Cards selectCard(int cardID, Models.DatabaseConnection db){
+    public static Cards selectCard(int cardID){
         try {
-        PreparedStatement cardStatement = db.newStatement("SELECT lastEdit, frontText, frontImage, backText, backImage, thirdText, thirdImage" +
+        PreparedStatement cardStatement = Main.db.newStatement("SELECT lastEdit, frontText, frontImage, backText, backImage, thirdText, thirdImage" +
                 "FROM Card WHERE CardID = ?");
         cardStatement.setInt(1, cardID);
-        ResultSet cardSet = db.runQuery(cardStatement);
+        ResultSet cardSet = Main.db.runQuery(cardStatement);
         Cards card = new Cards(cardSet.getInt(cardID), cardSet.getInt("lastEdit"),
                 cardSet.getString("frontText"), cardSet.getString("frontImage"),
                 cardSet.getString("backText"), cardSet.getString("backImage"),
@@ -53,11 +53,11 @@ public class CardService {
     }
 
     //Inserts a card, given all relevant information.
-    public static void insertCard(int DeckID, Models.DatabaseConnection db, Cards card){
+    public static void insertCard(int DeckID, Cards card){
         try {
             String cQuery = "INSERT INTO Card (CardID,  LastEdit, frontText, frontImage, backText, backImage, thirdText, thirdImage, urgency)" +
                     "(?, ?, ?, ?, ?, ?, ?, ? ?)";
-            PreparedStatement cPrepped = db.newStatement(cQuery);
+            PreparedStatement cPrepped = Main.db.newStatement(cQuery);
             cPrepped.setInt(1, card.getCardID());
             cPrepped.setInt(2, card.getLastEdit());
             cPrepped.setString(3, card.getFrontText());
@@ -67,23 +67,23 @@ public class CardService {
             cPrepped.setString(7, card.getThirdText());
             cPrepped.setString(8, card.getThirdImage());
             cPrepped.setInt(8, card.getUrgency());
-            db.runQuery(cPrepped);
+            Main.db.runQuery(cPrepped);
 
             String iQuery = "INSERT INTO Include (DeckID, CardID) values (?, ?)";
-            PreparedStatement iPrepped = db.newStatement(iQuery);
+            PreparedStatement iPrepped = Main.db.newStatement(iQuery);
             iPrepped.setInt(1, DeckID);
             iPrepped.setInt(2, card.getCardID());
-            db.runQuery(iPrepped);
+            Main.db.runQuery(iPrepped);
         }catch(SQLException e){System.out.println("SQLException in insertCard: "+e.getMessage());}
     }
 
     //Updates a card, given ALL relevant details. It is presumed that any card you wnt to update will have been
     //instantiated in the prgram and so you will have all relevant data.
-    public static void updateCard(Models.DatabaseConnection db, Cards card){
+    public static void updateCard(Cards card){
         try {
         String cQuery = "UPDATE Card SET (CardID=?,  LastEdit=?, frontText=?, frontImage=?, " +
                 "backText=?, backImage=?, thirdText=?, thirdImage=?, urgency=?)";
-        PreparedStatement cPrepped = db.newStatement(cQuery);
+        PreparedStatement cPrepped = Main.db.newStatement(cQuery);
         cPrepped.setInt(1, card.getCardID());
         cPrepped.setInt(2, card.getLastEdit());
         cPrepped.setString(3, card.getFrontText());
