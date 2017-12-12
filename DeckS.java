@@ -18,9 +18,9 @@ private static Stage mainstage;
         //array of the buttons to go in the Hbox
         Button[] myButtons = new Button[4];
 
-        myButtons[0] = new Button("No deck selected");
+        myButtons[0] = new Button("New deck.");
         myButtons[0].setPrefSize(180, 60);
-        myButtons[0].setOnAction((ActionEvent ae) -> Main.placeholder());
+        myButtons[0].setOnAction((ActionEvent ae) -> Main.startDeckC(mainstage));
 
         myButtons[1] = new Button("Add to favorites");
         myButtons[1].setPrefSize(180, 60);
@@ -47,26 +47,42 @@ private static Stage mainstage;
         int noOfDecks = DeckService.noOfDecks();
         int height = (noOfDecks/6);
         int lastWidth = (noOfDecks%6);
-        int pages = 0;
+//       -placeholder-    int pages = 0;
         Button[][] bodyButtons = new Button[4][6];
-        while ((height>4) || ((height==4) && (lastWidth==0))) {
-            for (int x = 0; x < 3; x++) {
-                for (int y = 0; y < 5; y++) {
-                    bodyButtons[x][y] = new Button(DeckService.selectDeckName(((5 * x) + y)+(24*pages)));
-                    bodyButtons[x][y].setPrefSize(240, 120);
-                    bodyButtons[x][y].setOnAction((ActionEvent ae) -> Main.startCardV(mainstage));
-                    body.add(bodyButtons[x][y], x, y);
-                }
+//        while ((height>4) || ((height==4) && (lastWidth==0))) {
+//            for (int x = 0; x < 4; x++) {
+//                for (int y = 0; y < 5; y++) {
+//                    bodyButtons[x][y] = new Button(DeckService.selectDeckName(((6 * x) + y)+(24*pages)));
+//                    bodyButtons[x][y].setPrefSize(240, 120);
+//                    bodyButtons[x][y].setOnAction((ActionEvent ae) -> Main.startCardV(mainstage));
+//                    body.add(bodyButtons[x][y], x, y);
+//                }
+//            }
+//            noOfDecks -= 24;
+//            height = (noOfDecks/6);
+//            lastWidth = (noOfDecks%6);
+//             -placeholder- pages++;
+//        }
+//         Add array for pages, place each page of bodyButtons[][] into a place in array starting from end. Calculate length by
+//         dividing height by the number of rows per page, then adding 1.
+
+        //Creating last, non-full page.
+        for (int x = 0; x < height; x++){
+            for (int y = 0; y < 5; y++){
+                bodyButtons[x][y] = new Button(DeckService.selectDeckName((6*x)+y /*+(24*pages)*/ ));
+                bodyButtons[x][y].setPrefSize(240, 120);
+                  bodyButtons[x][y].setOnAction((ActionEvent ae) -> Main.startCardV(mainstage));
+                  body.add(bodyButtons[x][y], x, y);
             }
-            noOfDecks -= 24;
-            height = (noOfDecks/6);
-            lastWidth = (noOfDecks%6);
-            pages++;
         }
 
+        for (int y = 0; y < lastWidth; y++){
+            bodyButtons[height+1][y] = new Button(DeckService.selectDeckName((6*(height))+y/*+(24*pages)*/));
+            bodyButtons[height+1][y].setPrefSize(240, 120);
+            bodyButtons[height+1][y].setOnAction((ActionEvent ae) -> Main.startCardV(mainstage));
+            body.add(bodyButtons[height+1][y], (height+1), y);
+        }
 
-        bodyButtons[0][0].setText("New deck.");
-        bodyButtons[0][0].setOnAction((ActionEvent ae) -> Main.startDeckC(mainstage));
         root.getChildren().add(body);
         body.setLayoutY(100);
 

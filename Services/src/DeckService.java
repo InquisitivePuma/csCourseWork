@@ -10,7 +10,7 @@ public class DeckService {
         try {
             PreparedStatement query = Main.db.newStatement("SELECT COUNT(*)FROM Deck");
             ResultSet rsNoOfDecks = Main.db.runQuery(query);
-            int noOfDecks = rsNoOfDecks.getInt(0);
+            int noOfDecks = rsNoOfDecks.getInt(1);
             return noOfDecks;
         }catch (java.sql.SQLException e) {
             System.out.println("Database query error in noOfDecks: " + e.getMessage());
@@ -20,10 +20,15 @@ public class DeckService {
 
     public static String selectDeckName(int deckID) {
         try {
-            ResultSet rsNoOfDecks = Main.db.runQuery(Main.db.newStatement("SELECT name FROM Deck Where Deckid = "+ deckID +
-                    " ORDER BY DeckID"));
+            PreparedStatement query = Main.db.newStatement("SELECT name FROM Deck WHERE DeckID = "+ (deckID+1) +
+                    " ORDER BY DeckID");
+            ResultSet rs = Main.db.runQuery(query);
 
-            String deckName = rsNoOfDecks.getString(deckID);
+            String deckName = null;
+            while (rs.next()) {
+                deckName = rs.getString("name");
+            }
+
             return deckName;
         } catch(java.sql.SQLException e){
             System.out.println("Database query error in selectDeckName: " + e.getMessage());
