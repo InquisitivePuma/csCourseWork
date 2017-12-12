@@ -77,10 +77,10 @@ private static Stage mainstage;
         }
 
         for (int y = 0; y < lastWidth; y++){
-            bodyButtons[height+1][y] = new Button(DeckService.selectDeckName((6*(height))+y/*+(24*pages)*/));
-            bodyButtons[height+1][y].setPrefSize(240, 120);
-            bodyButtons[height+1][y].setOnAction((ActionEvent ae) -> Main.startCardV(mainstage));
-            body.add(bodyButtons[height+1][y], (height+1), y);
+            bodyButtons[height][y] = new Button(DeckService.selectDeckName((6*(height))+y/*+(24*pages)*/));
+            bodyButtons[height][y].setPrefSize(240, 120);
+            bodyButtons[height][y].setOnAction((ActionEvent ae) -> Main.startCardV(mainstage));
+            body.add(bodyButtons[height][y], (height), y);
         }
 
         root.getChildren().add(body);
