@@ -20,6 +20,7 @@ public class CardV {
     private static Button[] topButtons = new Button[4];
     private static Button[] myButtons = new Button[3];
     private static Button[] bottomButtons = new Button[3];
+    private static int currentCard = 0;
 
     public static Pane launchCardV(Stage stage, int id){
         mainstage =stage;
@@ -30,7 +31,7 @@ public class CardV {
         for (int i = 0; i < Cards.size(); i++) {
             System.out.println(Cards.get(i).toString());
         }
-        int currentCard = 0;
+
         Cards currentCardO = Cards.get(currentCard);
 
         //Showing deck title at top of window
@@ -67,14 +68,14 @@ public class CardV {
         //array of all the buttons to go in the HBox - I'm not reusing the last one because it's the wrong size!
         myButtons[0] = new Button("Start of deck.");
         myButtons[0].setPrefSize(180, 540);
-        myButtons[0].setOnAction((ActionEvent ae) -> lastCard(currentCard));
+        myButtons[0].setOnAction((ActionEvent ae) -> lastCard());
 
         myButtons[1] = new Button(currentCardO.getFrontText());
         myButtons[1].setPrefSize(340, 540);
 
         myButtons[2] = new Button("Mark right / \nnext card.");
         myButtons[2].setPrefSize(180, 540);
-        myButtons[2].setOnAction((ActionEvent ae) -> nextCard(currentCard));
+        myButtons[2].setOnAction((ActionEvent ae) -> nextCard());
 
         centre.getChildren().addAll(myButtons);
         root.getChildren().add(centre);
@@ -102,9 +103,10 @@ public class CardV {
 
         return root;
     }
-    public static void nextCard(int currentCard){
-        if (currentCard < Cards.size()) {
+    public static void nextCard(){
+        if (currentCard < Cards.size()-1) {
             currentCard++;
+            System.out.println(Integer.toString(currentCard));
             Cards CurrentCardO = Cards.get(currentCard);
             topButtons[1].setText((Cards.size() - currentCard) + " cards to go");
             myButtons[1].setText(CurrentCardO.getFrontText());
@@ -115,9 +117,10 @@ public class CardV {
         }
 
     }
-    public static void lastCard(int currentCard){
+    public static void lastCard(){
         if (currentCard > 0) {
             currentCard--;
+            System.out.println(Integer.toString(currentCard));
             Cards CurrentCardO = Cards.get(currentCard);
             topButtons[1].setText((Cards.size() - currentCard) + " cards to go");
             myButtons[1].setText(CurrentCardO.getFrontText());
