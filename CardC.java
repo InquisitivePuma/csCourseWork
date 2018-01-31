@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 public class CardC {
     private static Stage mainstage;
     public static Pane launchCardC(Stage stage){
-        mainstage =stage;
+        mainstage = stage;
         Pane root = new Pane();
         //making a toolbar for text formatting tools
         ToolBar textFormatting = new ToolBar();

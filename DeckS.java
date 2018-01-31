@@ -71,7 +71,8 @@ private static Stage mainstage;
             for (int y = 0; y < 5; y++){
                 bodyButtons[x][y] = new Button(DeckService.selectDeckName((6*x)+y /*+(24*pages)*/ ));
                 bodyButtons[x][y].setPrefSize(240, 120);
-                  bodyButtons[x][y].setOnAction((ActionEvent ae) -> Main.startCardV(mainstage));
+                final int id = ((6*x)+y+1);
+                  bodyButtons[x][y].setOnAction((ActionEvent ae) -> Main.startCardV(mainstage, id));
                   body.add(bodyButtons[x][y], x, y);
             }
         }
@@ -79,7 +80,8 @@ private static Stage mainstage;
         for (int y = 0; y < lastWidth; y++){
             bodyButtons[height][y] = new Button(DeckService.selectDeckName((6*(height))+y/*+(24*pages)*/));
             bodyButtons[height][y].setPrefSize(240, 120);
-            bodyButtons[height][y].setOnAction((ActionEvent ae) -> Main.startCardV(mainstage));
+            final int id = ((6*height)+y+1);
+            bodyButtons[height][y].setOnAction((ActionEvent ae) -> Main.startCardV(mainstage, id));
             body.add(bodyButtons[height][y], (height), y);
         }
 

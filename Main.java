@@ -44,8 +44,8 @@ public class Main extends Application {
         stage.show();
     }
 
-    public static void startCardV(Stage stage){
-        root = CardV.launchCardV(stage);
+    public static void startCardV(Stage stage, int id){
+        root = CardV.launchCardV(stage, id);
 
         Scene scene = new Scene(root, 768, 900);
 

@@ -1,3 +1,4 @@
+import Models.Cards;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -7,13 +8,23 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import javax.smartcardio.Card;
+import java.util.ArrayList;
+
 public class CardV {
     private static Stage mainstage;
-    public static Pane launchCardV(Stage stage){
+    public static Pane launchCardV(Stage stage, int id){
         mainstage =stage;
         Pane root = new Pane();
-        //Showing deck title at op of window
-        Text title = new Text(10, 50, "Deck title or name.");
+
+        //Gathering relevant information about the deck:
+        String deckName = DeckService.selectDeckName(id);
+        ArrayList<Cards> Cards = CardService.selectDeckCards(id);
+        int currentCard = 0;
+        Cards currentCardO = Cards.get(currentCard);
+
+        //Showing deck title at top of window
+        Text title = new Text(10, 50, deckName);
         title.setFont(new Font(20));
         title.setLayoutX(20);
         root.getChildren().add(title);
@@ -26,7 +37,7 @@ public class CardV {
         topButtons[0] = new Button("X% correct");
         topButtons[0].setPrefSize(180, 60);
 
-        topButtons[1] = new Button("X cards to go");
+        topButtons[1] = new Button((Cards.size()-currentCard) + " cards to go");
         topButtons[1].setPrefSize(340, 60);
 
         topButtons[2] = new Button("Flip");
@@ -35,7 +46,7 @@ public class CardV {
 
         topButtons[3] = new Button("Back");
         topButtons[3].setPrefSize(84, 60);
-        topButtons[3].setOnAction((ActionEvent ae) -> Main.placeholder());
+        topButtons[3].setOnAction((ActionEvent ae) -> Main.startDeckS(mainstage));
 
         topBar.getChildren().addAll(topButtons);
         root.getChildren().add(topBar);
@@ -52,7 +63,7 @@ public class CardV {
         myButtons[0].setPrefSize(180, 540);
         myButtons[0].setOnAction((ActionEvent ae) -> Main.placeholder());
 
-        myButtons[1] = new Button("Card");
+        myButtons[1] = new Button(currentCardO.getFrontText());
         myButtons[1].setPrefSize(340, 540);
 
         myButtons[2] = new Button("Mark right / \nnext card.");

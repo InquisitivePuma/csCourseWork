@@ -12,7 +12,9 @@ import java.util.Calendar;
 public class CardService {
     public static ArrayList<Cards> selectDeckCards(int DeckID){
         try {
-            ResultSet cards = Main.db.runQuery(Main.db.newStatement("SELECT c.CardID, c.lastEdit, c.frontText, c.frontImage, c.backText, c.backImage, c.thirdText, c.thirdImage" +
+            System.out.println(DeckID);
+            ResultSet cards = Main.db.runQuery(Main.db.newStatement("SELECT c.CardID, c.lastEdit, c.frontText," +
+                    " c.frontImage, c.backText, c.backImage, c.thirdText, c.thirdImage" +
                     " FROM Card c INNER JOIN Include i ON c.CardID = i.CardID" +
                     " WHERE i.DeckID = "+DeckID));
             ArrayList<Cards> returnedCards = new ArrayList<>();
@@ -24,7 +26,7 @@ public class CardService {
                             cards.getString("thirdText"), cards.getString("thirdImage"), cards.getInt("urgency")));
                 }
             }
-
+            System.out.println(returnedCards);
             return returnedCards;
         }
         catch (java.sql.SQLException exception){
