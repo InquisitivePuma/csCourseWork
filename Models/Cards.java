@@ -95,4 +95,5 @@ public class Cards {
         this.urgency = urgency;
     }
 
+    public String toString(){return frontText+" / "+backText;}
 }
