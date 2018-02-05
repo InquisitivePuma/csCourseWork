@@ -34,9 +34,7 @@ public class CardV {
         for (int i = 0; i < cards.size(); i++) {
             System.out.println(cards.get(i).toString());
         }
-        for(Cards c : cards){
-            pool+=c.getUrgency
-        }
+       
         Cards currentCardO = cards.get(currentCard);
 
         //Showing deck title at top of window
@@ -138,8 +136,13 @@ public class CardV {
             myButtons[0].setText("Start of deck.");
         }
     }
+    //spaced review actions for a reported success/fail. See design section for flowchart/initial design.
     public void spacedCardSuccess(){
-        CurrentCardO.setUrgency(CurrentCardO.getUrgency()/3);
+        pool = 0;
+        for(Cards c : cards){
+            pool+=c.getUrgency;
+        }
+        CurrentCardO.setUrgency(CurrentCardO.getUrgency()/3); 
         int select = ThreadLocalRandom.current().nextInt(0, pool);
         for(Cards c : cards){
             select-=c.getUrgency();
@@ -153,6 +156,10 @@ public class CardV {
         bottomButtons[1].setText(Integer.toString(CurrentCardO.getUrgency()));
     }
     public void spacedCardFail(){
+        pool = 0;
+        for(Cards c : cards){
+            pool+=c.getUrgency;
+        }
         CurrentCardO.setUrgency(CurrentCardO.getUrgency()+((100-CurrentCardO.getUrgency())/3));
         int select = ThreadLocalRandom.current().nextInt(0, pool);
         for(Cards c : cards){
