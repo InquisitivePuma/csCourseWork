@@ -16,23 +16,28 @@ public class CardV {
 
     //Making data used in multiple functions visible throughout the class - tidier than passing it around!
     private static String deckName;
-    private static ArrayList<Cards> Cards;
+    private static ArrayList<Cards> cards;
     private static Button[] topButtons = new Button[4];
     private static Button[] myButtons = new Button[3];
     private static Button[] bottomButtons = new Button[3];
     private static int currentCard = 0;
+    private static int lastCard = -1;
+    private static boolean front = true;
+    public static int pool;
 
     public static Pane launchCardV(Stage stage, int id){
-        mainstage =stage;
+        mainstage = stage;
         Pane root = new Pane();
 
         deckName = DeckService.selectDeckName(id);
-        Cards = CardService.selectDeckCards(id);
-        for (int i = 0; i < Cards.size(); i++) {
-            System.out.println(Cards.get(i).toString());
+        cards = CardService.selectDeckCards(id);
+        for (int i = 0; i < cards.size(); i++) {
+            System.out.println(cards.get(i).toString());
         }
-
-        Cards currentCardO = Cards.get(currentCard);
+        for(Cards c : cards){
+            pool+=c.getUrgency
+        }
+        Cards currentCardO = cards.get(currentCard);
 
         //Showing deck title at top of window
         Text title = new Text(10, 50, deckName);
@@ -46,7 +51,7 @@ public class CardV {
         topButtons[0] = new Button("X% correct");
         topButtons[0].setPrefSize(180, 60);
 
-        topButtons[1] = new Button((Cards.size()-currentCard) + " cards to go");
+        topButtons[1] = new Button((cards.size()-currentCard) + " cards to go");
         topButtons[1].setPrefSize(340, 60);
 
         topButtons[2] = new Button("Flip");
@@ -104,12 +109,13 @@ public class CardV {
         return root;
     }
     public static void nextCard(){
-        if (currentCard < Cards.size()-1) {
+        if (currentCard < cards.size()-1) {
+            lastCard = currentCard;
             currentCard++;
             System.out.println(Integer.toString(currentCard));
-            Cards CurrentCardO = Cards.get(currentCard);
-            topButtons[1].setText((Cards.size() - currentCard) + " cards to go");
-            myButtons[1].setText(CurrentCardO.getFrontText());
+            Cards CurrentCardO = cards.get(currentCard);
+            topButtons[1].setText((cards.size() - currentCard) + " cards to go");
+            myButtons[1].setText(CurrentCardO.getFrontText()+"\n\n"+CurrentCardO.getThirdText());
             bottomButtons[1].setText(Integer.toString(CurrentCardO.getUrgency()));
             myButtons[0].setText("Mark wrong / \nlast card.");
         }else{
@@ -118,19 +124,53 @@ public class CardV {
 
     }
     public static void lastCard(){
-        if (currentCard > 0) {
-            currentCard--;
+        if (lastCard != -1) {
+            int swap = lastCard;
+            lastCard = currentCard;
+            currentCard = swap;
             System.out.println(Integer.toString(currentCard));
-            Cards CurrentCardO = Cards.get(currentCard);
-            topButtons[1].setText((Cards.size() - currentCard) + " cards to go");
-            myButtons[1].setText(CurrentCardO.getFrontText());
+            Cards CurrentCardO = cards.get(currentCard);
+            topButtons[1].setText((cards.size() - currentCard) + " cards to go");
+            myButtons[1].setText(CurrentCardO.getFrontText()+"\n\n"+CurrentCardO.getThirdText());
             bottomButtons[1].setText(Integer.toString(CurrentCardO.getUrgency()));
             myButtons[2].setText("Mark right / \nnext card.");
         }else{
             myButtons[0].setText("Start of deck.");
         }
     }
-    public void nextSpacedCard(){
-
+    public void spacedCardSuccess(){
+        CurrentCardO.setUrgency(CurrentCardO.getUrgency()/3);
+        int select = ThreadLocalRandom.current().nextInt(0, pool);
+        for(Cards c : cards){
+            select-=c.getUrgency();
+            if(select<1){
+                CurrentCardO = c;
+                break;
+            }
+        }
+        topButtons[1].setText((cards.size() - currentCard) + " cards to go");
+        myButtons[1].setText(CurrentCardO.getFrontText()+"\n\n"+CurrentCardO.getThirdText());
+        bottomButtons[1].setText(Integer.toString(CurrentCardO.getUrgency()));
+    }
+    public void spacedCardFail(){
+        CurrentCardO.setUrgency(CurrentCardO.getUrgency()+((100-CurrentCardO.getUrgency())/3));
+        int select = ThreadLocalRandom.current().nextInt(0, pool);
+        for(Cards c : cards){
+            select-=c.getUrgency();
+            if(select<1){
+                CurrentCardO = c;
+                break;
+            }
+        }
+        topButtons[1].setText((cards.size() - currentCard) + " cards to go");
+        myButtons[1].setText(CurrentCardO.getFrontText()+"\n\n"+CurrentCardO.getThirdText());
+        bottomButtons[1].setText(Integer.toString(CurrentCardO.getUrgency()));
+    }
+    public void flip(){
+        if(front = true) {
+            myButtons[1].setText(CurrentCardO.getBackText()+"\n\n"+CurrentCardO.getThirdText());
+        }else{
+            myButtons[1].setText(CurrentCardO.getFrontText()+"\n\n"+CurrentCardO.getThirdText());
+        }
     }
 }
